@@ -5,7 +5,6 @@ package errors
 
 import (
 	"fmt"
-
 	"github.com/StevenACoffman/anotherr/errors/errbase"
 )
 
@@ -103,8 +102,6 @@ func KhanWrap(err error, args ...interface{}) error {
 	}
 
 	if len(args)%2 != 0 {
-		fmt.Println("Odd")
-
 		return newError(
 			InternalKind,
 			err,
@@ -119,8 +116,6 @@ func KhanWrap(err error, args ...interface{}) error {
 	for i := 0; i < len(args); i += 2 {
 		key, ok := args[i].(string)
 		if !ok {
-			fmt.Println("Non-string keyfield")
-
 			return newError(
 				InternalKind,
 				err,
@@ -134,14 +129,12 @@ func KhanWrap(err error, args ...interface{}) error {
 	khanKind, kindOfOk := err.(errorKind)
 	if !ok { // root is not KhanErr
 		if kindOfOk { // root is errorKind
-			return newError(khanKind, fields)
+			return newError(khanKind, err, fields)
 		}
 		// "Internal" is the best default, but not always right.
 		// e.g. for client.GCS() errors, "Service" would be better.
 		// The solution is to change our GCS wrapper to return khanErrors,
 		// like we do for our Datastore wrapper.
-		fmt.Println("Default")
-
 		return newError(InternalKind, err, fields)
 	}
 
@@ -150,7 +143,6 @@ func KhanWrap(err error, args ...interface{}) error {
 		// This probably can't happen, but just in case...
 		return newError(InternalKind, args...)
 	}
-
 	return newError(errKind, khanErr, fields)
 }
 

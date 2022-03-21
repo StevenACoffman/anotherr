@@ -27,16 +27,31 @@ func bar() error {
 	return errors.Wrap(ErrMyError{"something went wrong"}, "error")
 }
 
+func baz() error {
+	return errors.KhanWrap(fmt.Errorf("something"), "key", "value")
+}
+
+func qux() error {
+	return errors.Internal("key", "value")
+}
+
 func main() {
+	fmt.Println("foo:")
 	if err := foo(); err != nil {
-		if errors.Cause(err) == ErrSomethingWentWrong { // or errors.Is(ErrSomethingWentWrong)
-			fmt.Printf("%+v\n", err)
+		if errors.Is(err, ErrSomethingWentWrong) {
+			fmt.Printf("Is %+v\n", err)
+		} else {
+			fmt.Printf("Is Not %+v\n", err)
 		}
 	}
-
+	fmt.Println("\nWrap:")
 	if err := bar(); err != nil {
 		if errors.As(err, &ErrMyError{}) {
 			fmt.Printf("%+v\n", err)
 		}
 	}
+	fmt.Printf("\nKhan Style:\n%+v\n", baz())
+
+	fmt.Printf("\nWrapped Khan Internal:\n%+v\n", errors.Wrap(qux(), "wrapped"))
+
 }

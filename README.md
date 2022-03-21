@@ -2,8 +2,8 @@
 The package `github.com/StevenACoffman/anotherr/errors`aims to be used as a drop-in replacement to `github.com/pkg/errors` and Go's standard errors package,
 due to it being a crudely hacked up version of [cockroachdb/errors](https://github.com/cockroachdb/errors). (see why below)
 
-Compatibility with Khan Academy webapp errors is also provided, but instead of `github.com/Khan/webapp/pkg/lib/errors.Wrap`, use `errors.KhanWrap`.
-All other functions, like `NotFound(args ...interface{})` should be drop-in replacements.
+Compatibility with Khan Academy webapp errors is also provided, but instead of `github.com/Khan/webapp/pkg/lib/errors.Wrap`, use `errors.KhanWrap` for when `func Wrap(err error, msg string) error`
+doesn't match the Khan style `func KhanWrap(err error, args ...interface{})` usage. All other functions, like `NotFound(args ...interface{})` should be drop-in replacements. 
 
 Additionally, it provides **_some_** of the benefits of [cockroachdb/errors](https://github.com/cockroachdb/errors):
 
