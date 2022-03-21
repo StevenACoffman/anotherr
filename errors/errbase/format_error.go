@@ -633,11 +633,11 @@ func ElideSharedStackTraceSuffix(prevStack, newStack StackTrace) (StackTrace, bo
 
 // StackTrace is the type of the data for a call stack.
 // This mirrors the type of the same name in github.com/pkg/errors.
-type StackTrace = pkgErr.StackTrace
+type StackTrace = pkgErr.StackTrace // type StackTrace []Frame
 
 // StackFrame is the type of a single call frame entry.
 // This mirrors the type of the same name in github.com/pkg/errors.
-type StackFrame = pkgErr.Frame
+type StackFrame = pkgErr.Frame // type Frame uintptr
 
 // StackTraceProvider is a provider of StackTraces.
 // This is, intentionally, defined to be implemented by pkg/errors.stack.
